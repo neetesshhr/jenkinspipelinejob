@@ -16,6 +16,7 @@ node{
     }
     stage('Set build name'){
         currentBuild.description = "${params.REQ_INC}"
+        currentBuild.displayName = "${params.REQ_INC}"
     }
     stage('Build image'){
         echo 'Building image...'
