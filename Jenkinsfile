@@ -1,9 +1,8 @@
 node{
-    stage('checkout scm'){
-        echo 'Checking out scm'
-        checkout scm
-    }
-    stage('parameterized build'){
+    
+   
+
+    
        properties([
         parameters([
             string(name: 'IMAGE_NAME', defaultValue: 'python-app', description: 'The name of the image to build'),
@@ -13,11 +12,14 @@ node{
             string(name: 'REQ_INC', defaultValue: 'SQX', description: 'The REQ_INC')
         ])
        ])
-    }
-    stage('Set build name'){
+        stage('Set build name'){
+            checkout scm
         currentBuild.description = "${params.REQ_INC}"
         currentBuild.displayName = "${params.REQ_INC}"
     }
+
+    
+   
     stage('Build image'){
         echo 'Building image...'
         bat '''docker build -t %IMAGE_NAME%:%IMAGE_TAG% .'''
