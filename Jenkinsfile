@@ -16,6 +16,7 @@ node{
             checkout scm
         currentBuild.description = "${params.REQ_INC}"
         currentBuild.displayName = "${params.REQ_INC}"
+        currentBuild.buildName
     }
 
     
@@ -23,5 +24,11 @@ node{
     stage('Build image'){
         echo 'Building image...'
         bat '''docker build -t %IMAGE_NAME%:%IMAGE_TAG% .'''
+    }
+    post{
+        always{
+            emailext body: 'A test email from Jenkins', recipientProviders: [[$class: 'DeveloperRecipientProvider'], 
+            [$class: 'RequestRecipientProvider']], subject: 'Test email from Jenkins'
+        }
     }
 }
